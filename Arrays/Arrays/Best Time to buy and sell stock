@@ -1,0 +1,43 @@
+1. BestBuy (Minimum so far)
+
+You keep a running lowest price seen so far:
+
+Day	Price	BestBuy	Explanation
+0	   7	   7	First price becomes BestBuy
+1	   1	   1	New cheaper day → update BestBuy
+2	   5	   1	Price above best buy, sell would make profit
+3	   3	   1	Still best buy remains 1
+4	   6	   1	Sell here yields larger profit
+5	   4	   1	Not larger than previous profit
+
+At each day, you try selling at current price using the lowest buy price before this day.
+You are sliding along the price curve.
+
+You always remember the lowest valley you’ve seen so far.
+
+Then check every subsequent point to see how much you’d make if you sold there.
+
+You track the highest difference between current price and lowest buy price.
+
+Greedy algo:
+public class Solution {
+    public int MaxProfit(int[] prices) {
+        int profit=0;
+        // you can not set the btb as the smmalest elemnt in the array from the begining but if the smallest wlwmnt it at the last elemnt you will not consider it as you can not sell after that so the 2nd smallest elemnt will be btb then.As I move from left to right, I always remember the lowest price so far to buy, and at each day I check if selling today gives me a better profit than before.”“Track the minimum price so far and the maximum profit so far.”Start with first price as the best buying price.For every next day:Try selling today → todayPrice - bestBuy,Update max profit if this is better,Update best buy price if today is cheaper
+        if(prices != null && prices.Length >1){
+            
+            int Besttimetobuy=prices[0];
+            for(int i=0;i<prices.Length;i++){
+                profit= Math.Max(profit, prices[i] - Besttimetobuy);
+                Besttimetobuy=Math.Min(prices[i],Besttimetobuy);
+            }
+            
+        }
+        return profit;
+    }
+}
+
+Time Complexity — O(n)
+Space Complexity — O(1)
+
+
