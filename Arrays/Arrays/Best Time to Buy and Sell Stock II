@@ -1,1 +1,67 @@
 
+The execution flow :
+i = 0
+  j = 1 → calculate
+  j = 2 → calculate
+  j = 3 → calculate
+END j loop
+
+i = 1
+  j = 2 → calculate
+  j = 3 → calculate
+END j loop
+
+i = 2
+  j = 3 → calculate
+END
+
+i = 3 → no j loop
+
+ so think like a trader :
+Pick a day to buy
+2. Try selling on every future day
+3. For each sell:
+      profit = current trade + future trades
+4. Choose best sell for that buy
+5. Try next buy day
+6. Return best overall
+
+
+
+FOR each i:
+    run ALL j
+THEN move to next i
+
+
+
+"Fix buy → try all sells → add future → take best"
+
+public class Solution {
+    public int MaxProfit(int[] prices) {
+        return Calculate(prices, 0);
+    }
+
+    private int Calculate(int[] prices, int start) {
+        if (start >= prices.Length)
+            return 0;
+
+        int max = 0;
+
+        for (int i = start; i < prices.Length; i++) {
+            int maxProfit = 0;
+
+            for (int j = i + 1; j < prices.Length; j++) {
+                if (prices[j] > prices[i]) {
+                    int profit = prices[j] - prices[i] 
+                               + Calculate(prices, j + 1);
+
+                    maxProfit = Math.Max(maxProfit, profit);
+                }
+            }
+
+            max = Math.Max(max, maxProfit);
+        }
+
+        return max;
+    }
+}
